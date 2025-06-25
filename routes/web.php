@@ -59,6 +59,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/article_list', [AdminArticleController::class, 'showArticleList'])->name('show.article.list');
     Route::get('/article_create', [AdminArticleController::class, 'showArticleCreate'])->name('show.article.create');
     Route::get('/article_edit/{id}', [AdminArticleController::class, 'showArticleEdit'])->name('show.article.edit');
+    Route::post('/article_list/{id}', [AdminArticleController::class, 'store'])->name('article.store');
+    Route::post('/article_list/{id}', [AdminArticleController::class, 'update'])->name('article.update');
+    Route::delete('/article_list/{id}', [AdminArticleController::class, 'destroy'])->name('article.destroy');
 
     Route::get('/banner_edit', [AdminBannerController::class, 'showBannerEdit'])->name('show.banner.edit');
 });
