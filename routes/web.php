@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 // ▼ User Controllers
 use App\Http\Controllers\User\LoginController as UserLoginController;
