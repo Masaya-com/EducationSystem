@@ -18,7 +18,6 @@
     <div class="mt-3">
         <a href="{{ route('show.article.create') }}" class="btn btn-primary">新規登録</a>
     </div>
-</div>
     <table class="table mt-3">
         <thead>
             <tr>
@@ -43,7 +42,5 @@
             @endforeach
         </tbody>
     </table>
-
-
-
+</div>
 @endsection
