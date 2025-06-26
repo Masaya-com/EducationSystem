@@ -24,7 +24,7 @@ class ArticleRequest extends FormRequest
     public function rules()
     {
         return [
-            'post_date' => 'required',
+            'post_date' => 'required|date',
             'title' => 'required|max:255',
             'article_content' => 'required',
         ];
@@ -34,6 +34,7 @@ class ArticleRequest extends FormRequest
     {
         return [
             'post_date.required' => '投稿日を入力してください。',
+            'post_date.date' => '投稿日は有効な日付でなければなりません。',
             'title.required' => 'タイトルを入力してください。',
             'title.max' => 'タイトルは255文字以内でなければなりません。',
             'article_content.required' => '記事内容を入力してください。',
