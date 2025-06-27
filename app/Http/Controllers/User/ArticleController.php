@@ -7,9 +7,11 @@ use App\Models\Article;
 class ArticleController extends Controller
 {
    
-    public function showArticle($id)
+
+    
+    public function showArticle()
     {
-        $article = Article::findOrFail($id);
+        $article = Article::all();
 
         return view('user.article', compact('article'));
     }

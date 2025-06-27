@@ -30,15 +30,15 @@
         @csrf
         <div class="form-group">
             <label for="posted_date">投稿日時</label>
-            <input type="date" name="posted_date" id="posted_date" class="form-control" value="{{ old('posted_date', \Carbon\Carbon::today()->format('Y-m-d')) }}" required>
+            <input type="date" name="posted_date" id="posted_date" class="form-control" value="{{ old('posted_date', \Carbon\Carbon::today()->format('Y-m-d')) }}">
         </div>
         <div class="form-group mt-3">
             <label for="title">タイトル</label>
-            <input type="text" name="title" id="title" class="form-control" required>
+            <input type="text" name="title" id="title" class="form-control">
         </div>
         <div class="form-group mt-3">
             <label for="content">本文</label>
-            <textarea name="content" id="content" class="form-control" rows="5" required></textarea>
+            <textarea name="content" id="content" class="form-control" rows="5"></textarea>
         </div>
         <div class="text-center">
             <button type="submit" class="btn btn-secondary mt-3">登録</button>

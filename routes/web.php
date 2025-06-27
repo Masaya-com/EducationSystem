@@ -39,7 +39,9 @@ Route::prefix('user')->name('user.')->group(function () {
     Route::get('/progress', [UserProgressController::class, 'showProgress'])->name('show.progress');
 
     Route::get('/profile', [UserProfileController::class, 'showProfileForm'])->name('show.profile');
+    Route::put('/profile', [UserProfileController::class, 'profileUpdate'])->name('profile.update');
     Route::get('/password', [UserProfileController::class, 'showPasswordForm'])->name('show.password.edit');
+    Route::put('/password', [UserProfileController::class, 'passwordUpdate'])->name('password.update');
 });
 
 /*
@@ -61,9 +63,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/article_list', [AdminArticleController::class, 'showArticleList'])->name('show.article.list');
     Route::get('/article_create', [AdminArticleController::class, 'showArticleCreate'])->name('show.article.create');
     Route::get('/article_edit/{id}', [AdminArticleController::class, 'showArticleEdit'])->name('show.article.edit');
-    Route::post('/article_list/{id}', [AdminArticleController::class, 'store'])->name('article.store');
-    Route::put('/article_list/{id}', [AdminArticleController::class, 'update'])->name('article.update');
-    Route::delete('/article_list/{id}', [AdminArticleController::class, 'destroy'])->name('article.destroy');
+    Route::post('/article_list/{id}', [AdminArticleController::class, 'articleStore'])->name('article.store');
+    Route::put('/article_list/{id}', [AdminArticleController::class, 'articleUpdate'])->name('article.update');
+    Route::delete('/article_list/{id}', [AdminArticleController::class, 'articleDestroy'])->name('article.destroy');
 
     Route::get('/banner_edit', [AdminBannerController::class, 'showBannerEdit'])->name('show.banner.edit');
 });

@@ -13,7 +13,7 @@
             {{ session('error') }}
         </div>
     @endif
-    <a href="{{ url()->previous() }}">←戻る</a>
+    <a href="{{ route('admin.show.top') }}">←戻る</a>
     <h1 class="mt-3">お知らせ一覧</h1>
     <div class="mt-3">
         <a href="{{ route('show.article.create') }}" class="btn btn-primary">新規登録</a>

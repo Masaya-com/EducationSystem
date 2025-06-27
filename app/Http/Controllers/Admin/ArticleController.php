@@ -31,38 +31,38 @@ class ArticleController extends Controller
     }
   
     
-    public function store(ArticleRequest $request)
+    public function articleStore(ArticleRequest $request)
     {
         try{
             $article = new Article($request->validated());
 
             $article->save();
 
-            return redirect('article_list')->with('success', 'お知らせを登録しました。');
+            return redirect('show.article.list')->with('success', 'お知らせを登録しました。');
         }catch(\Exception $e){
           return redirect()->back()->with('error' , 'お知らせ登録中にエラーが発生しました。' . $e->getMessage());
         }
     }
 
   
-    public function update(ArticleRequest $request, Article $article)
+    public function articleUpdate(ArticleRequest $request, Article $article)
     {
         try {
             $article->fill($request->validated());  
             $article->save();
             
-            return redirect()->route('article_list')->with('success', 'お知らせを更新しました。');
+            return redirect()->route('show.article.list')->with('success', 'お知らせを更新しました。');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'お知らせ更新中にエラーが発生しました: ' . $e->getMessage());
         }
     }
 
    
-    public function destroy(Article $article)
+    public function articleDestroy(Article $article)
     {
         try {
             $article->delete();
-            return redirect('article_list')->with('success', 'お知らせを削除しました。');
+            return redirect('show.article.list')->with('success', 'お知らせを削除しました。');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'お知らせ削除中にエラーが発生しました: ' . $e->getMessage());
         }

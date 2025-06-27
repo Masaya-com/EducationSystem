@@ -11,74 +11,54 @@ class ProfileController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function showProfileForm()
     {
-        //
+        $users = User::all();
+        return view('user.profile_edit', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+   
+    public function showPasswordForm()
     {
-        //
+        $users = User::all();
+        return view('user.password_edit', compact('users'));    
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+
+    public function profileUpdate(ProfileRequest $request , User $user)
     {
-        //
+        try {
+            
+            $user = fill($request->validated());
+
+            if ($request->hasFile('profile_image')) { 
+            $filename = $request->profile_image->getClientOriginalName();
+            $filePath = $request->profile_image->storeAs('users', $filename, 'public');
+            $product->profile_image = '/storage/' . $filePath;
+            }
+            
+            $user->save();
+
+            return redirect()->route('user.show.top')->with('success', 'プロフィールを更新しました。');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'プロフィール更新中にエラーが発生しました: ' . $e->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function passwordUpdate(PasswordRequest $request)
     {
-        //
+        try {
+            $user = auth()->user();
+            if (!\Hash::check($request->current_password, $user->password)) {
+                return redirect()->back()->withErrors(['current_password' => '旧パスワードが正しくありません。']);
+            }
+            $user->password = bcrypt($request->password);
+            $user->save();
+
+            return redirect()->route('user.show.profile')->with('success', 'パスワードを更新しました。');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'パスワード更新中にエラーが発生しました: ' . $e->getMessage());
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
