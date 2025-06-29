@@ -31,17 +31,17 @@ use App\Http\Controllers\Admin\BannerController as AdminBannerController;
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('/login', [UserLoginController::class, 'showLoginForm'])->name('show.login');
     Route::get('/register', [UserRegisterController::class, 'showRegisterForm'])->name('show.register');
-    Route::get('/top', [UserTopController::class, 'showTop'])->name('show.top');
-
-    Route::get('/article/{id}', [UserArticleController::class, 'showArticle'])->name('show.article');
-    Route::get('/curriculum_list', [UserCurriculumController::class, 'showCurriculumList'])->name('show.curriculum');
-    Route::get('/delivery/{id}', [UserDeliveryController::class, 'showDelivery'])->name('show.delivery');
-    Route::get('/progress', [UserProgressController::class, 'showProgress'])->name('show.progress');
-
-    Route::get('/profile', [UserProfileController::class, 'showProfileForm'])->name('show.profile');
-    Route::put('/profile', [UserProfileController::class, 'profileUpdate'])->name('profile.update');
-    Route::get('/password', [UserProfileController::class, 'showPasswordForm'])->name('show.password.edit');
-    Route::put('/password', [UserProfileController::class, 'passwordUpdate'])->name('password.update');
+    Route::middleware('auth')->group(function () {
+        Route::get('/top', [UserTopController::class, 'showTop'])->name('show.top');
+        Route::get('/article/{id}', [UserArticleController::class, 'showArticle'])->name('show.article');
+        Route::get('/curriculum_list', [UserCurriculumController::class, 'showCurriculumList'])->name('show.curriculum');
+        Route::get('/delivery/{id}', [UserDeliveryController::class, 'showDelivery'])->name('show.delivery');
+        Route::get('/progress', [UserProgressController::class, 'showProgress'])->name('show.progress');
+        Route::get('/profile', [UserProfileController::class, 'showProfileForm'])->name('show.profile');
+        Route::put('/profile', [UserProfileController::class, 'profileUpdate'])->name('profile.update');
+        Route::get('/password', [UserProfileController::class, 'showPasswordForm'])->name('show.password.edit');
+        Route::put('/password', [UserProfileController::class, 'passwordUpdate'])->name('password.update');
+    });
 });
 
 /*
@@ -52,20 +52,19 @@ Route::prefix('user')->name('user.')->group(function () {
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('show.login');
     Route::get('/register', [AdminRegisterController::class, 'showRegisterForm'])->name('show.register');
-    Route::get('/top', [AdminTopController::class, 'showTop'])->name('show.top');
-
-    Route::get('/curriculum_list', [AdminCurriculumController::class, 'showCurriculumList'])->name('show.curriculum.list');
-    Route::get('/curriculum_create', [AdminCurriculumController::class, 'showCurriculumCreate'])->name('show.curriculum.create');
-    Route::get('/curriculum_edit/{id}', [AdminCurriculumController::class, 'showCurriculumEdit'])->name('show.curriculum.edit');
-
-    Route::get('/delivery_edit/{id}', [AdminDeliveryController::class, 'showDeliveryEdit'])->name('show.delivery.edit');
-
-    Route::get('/article_list', [AdminArticleController::class, 'showArticleList'])->name('show.article.list');
-    Route::get('/article_create', [AdminArticleController::class, 'showArticleCreate'])->name('show.article.create');
-    Route::get('/article_edit/{id}', [AdminArticleController::class, 'showArticleEdit'])->name('show.article.edit');
-    Route::post('/article_list/{id}', [AdminArticleController::class, 'articleStore'])->name('article.store');
-    Route::put('/article_list/{id}', [AdminArticleController::class, 'articleUpdate'])->name('article.update');
-    Route::delete('/article_list/{id}', [AdminArticleController::class, 'articleDestroy'])->name('article.destroy');
-
-    Route::get('/banner_edit', [AdminBannerController::class, 'showBannerEdit'])->name('show.banner.edit');
+    Route::middleware('auth')->group(function () {
+        Route::get('/top', [AdminTopController::class, 'showTop'])->name('show.top');
+        Route::get('/curriculum_list', [AdminCurriculumController::class, 'showCurriculumList'])->name('show.curriculum.list');
+        Route::get('/curriculum_create', [AdminCurriculumController::class, 'showCurriculumCreate'])->name('show.curriculum.create');
+        Route::get('/curriculum_edit/{id}', [AdminCurriculumController::class, 'showCurriculumEdit'])->name('show.curriculum.edit');
+        Route::get('/delivery_edit/{id}', [AdminDeliveryController::class, 'showDeliveryEdit'])->name('show.delivery.edit');
+        Route::get('/article_list', [AdminArticleController::class, 'showArticleList'])->name('show.article.list');
+        Route::get('/article_create', [AdminArticleController::class, 'showArticleCreate'])->name('show.article.create');
+        Route::get('/article_edit/{id}', [AdminArticleController::class, 'showArticleEdit'])->name('show.article.edit');
+        Route::post('/article_list/{id}', [AdminArticleController::class, 'articleStore'])->name('article.store');
+        Route::put('/article_list/{id}', [AdminArticleController::class, 'articleUpdate'])->name('article.update');
+        Route::delete('/article_list/{id}', [AdminArticleController::class, 'articleDestroy'])->name('article.destroy');
+        Route::get('/banner_edit', [AdminBannerController::class, 'showBannerEdit'])->name('show.banner.edit');
+    });
 });
+

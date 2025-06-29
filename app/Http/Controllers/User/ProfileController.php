@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\PasswordRequest;
+use App\Http\Controllers\Controller;
 
 class ProfileController extends Controller
 {
@@ -17,14 +18,14 @@ class ProfileController extends Controller
     public function showProfileForm()
     {
         $user = auth()->user();
-        return view('user.profile_edit', compact('users'));
+        return view('user.layouts.profile_edit', compact('user'));
     }
 
    
     public function showPasswordForm()
     {
         $user = auth()->user();
-        return view('user.password_edit', compact('users'));    
+        return view('user.layouts.password_edit', compact('user'));    
     }
 
 
