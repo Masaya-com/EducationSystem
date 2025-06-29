@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\PasswordRequest;
 
 class ProfileController extends Controller
 {
@@ -13,14 +16,14 @@ class ProfileController extends Controller
      */
     public function showProfileForm()
     {
-        $users = User::all();
+        $user = auth()->user();
         return view('user.profile_edit', compact('users'));
     }
 
    
     public function showPasswordForm()
     {
-        $users = User::all();
+        $user = auth()->user();
         return view('user.password_edit', compact('users'));    
     }
 
