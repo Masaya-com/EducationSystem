@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Models\User;
 use App\Models\Grade;   
 use App\Models\Curriculum;
+use App\Http\Controllers\Controller;
 
 class ProgressController extends Controller
 {
@@ -14,7 +15,7 @@ class ProgressController extends Controller
         $grades = Grade::all();
         $curriculums = Curriculum::all();
 
-        return view('user.curriculum_progress', compact('user', 'grades', 'curriculums'));
+        return view('user.layouts.curriculum_progress', compact('user', 'grades', 'curriculums'));
     }
 
 }

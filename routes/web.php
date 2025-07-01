@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Auth;
 
 
 // ▼ User Controllers
-use App\Http\Controllers\User\LoginController as UserLoginController;
-use App\Http\Controllers\User\RegisterController as UserRegisterController;
+use App\Http\Controllers\User\Auth\LoginController as UserLoginController;
+use App\Http\Controllers\User\Auth\RegisterController as UserRegisterController;
 use App\Http\Controllers\User\TopController as UserTopController;
 use App\Http\Controllers\User\ArticleController as UserArticleController;
 use App\Http\Controllers\User\CurriculumController as UserCurriculumController;
@@ -15,8 +15,8 @@ use App\Http\Controllers\User\ProgressController as UserProgressController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
 
 // ▼ Admin Controllers
-use App\Http\Controllers\Admin\LoginController as AdminLoginController;
-use App\Http\Controllers\Admin\RegisterController as AdminRegisterController;
+use App\Http\Controllers\Admin\Auth\LoginController as AdminLoginController;
+use App\Http\Controllers\Admin\Auth\RegisterController as AdminRegisterController;
 use App\Http\Controllers\Admin\TopController as AdminTopController;
 use App\Http\Controllers\Admin\CurriculumController as AdminCurriculumController;
 use App\Http\Controllers\Admin\DeliveryController as AdminDeliveryController;
@@ -30,7 +30,9 @@ use App\Http\Controllers\Admin\BannerController as AdminBannerController;
 */
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('/login', [UserLoginController::class, 'showLoginForm'])->name('show.login');
+    Route::post('/login', [UserLoginController::class, 'login'])->name('user.login');
     Route::get('/register', [UserRegisterController::class, 'showRegisterForm'])->name('show.register');
+    Route::post('/register', [UserRegisterController::class, 'register'])->name('user.register');
     Route::middleware('auth')->group(function () {
         Route::get('/top', [UserTopController::class, 'showTop'])->name('show.top');
         Route::get('/article/{id}', [UserArticleController::class, 'showArticle'])->name('show.article');
@@ -51,7 +53,9 @@ Route::prefix('user')->name('user.')->group(function () {
 */
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('show.login');
+    Route::post('/login', [UserLoginController::class, 'login'])->name('admin.login');
     Route::get('/register', [AdminRegisterController::class, 'showRegisterForm'])->name('show.register');
+    Route::post('/register', [UserRegisterController::class, 'register'])->name('admin.register');
     Route::middleware('auth')->group(function () {
         Route::get('/top', [AdminTopController::class, 'showTop'])->name('show.top');
         Route::get('/curriculum_list', [AdminCurriculumController::class, 'showCurriculumList'])->name('show.curriculum.list');
@@ -67,4 +71,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/banner_edit', [AdminBannerController::class, 'showBannerEdit'])->name('show.banner.edit');
     });
 });
+
+// ▼ グローバルログアウトルート（ユーザー・管理者共通）
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/');
+})->name('logout');
+
+
+
+
+
 

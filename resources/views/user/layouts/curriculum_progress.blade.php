@@ -2,13 +2,17 @@
 
 @section('content')
 <div class="container">
-    <a href="{{ route('user.show.top') }}">←戻る</a>
+    <a href="{{ route('user.show.top') }}" class="text-decoration-none text-body">←戻る</a>
     <div class="profile">
         @if($user->profile_image)
             <img src="{{ asset($user->profile_image) }}" alt="プロフィール画像" width="100" class="mt-1">
         @endif
         <h1 class="mt-3">{{ $user->name }}の授業進捗</h1>
-        <h1 class="mt-1">現在の学年: <span class="bg-info rounded-pill px-4 py-2">{{ $user->grade->name }}</span></h1>
+        <p class="mt-1">現在の学年: 
+            <span class="bg-info rounded-pill px-4 py-2">
+                {{ optional($user->grade)->name ?? '未設定' }}
+            </span>
+        </h1>
     </div>
     <table class="table align-middle">
         <tbody>
@@ -26,7 +30,7 @@
                     @php $index = $row * $columns + $col; @endphp
                     <td>
                         @if (isset($gradesList[$index]))
-                            <div class="fw-bold">{{ $gradesList[$index] }}</div>
+                            <div class="fw-bold bg-info rounded-pill px-4">{{ $gradesList[$index] }}</div>
                             @foreach ($curriculums->where('grade_id', $index + 1) as $curriculum)
                                 <div class="mt-2">
                                     <a href="{{ route('curriculums.show', $curriculum->id) }}" class="text-decoration-none">

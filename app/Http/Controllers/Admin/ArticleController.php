@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Http\Requests\ArticleRequest;
+use App\Http\Controllers\Controller;
 
 class ArticleController extends Controller
 {
@@ -14,20 +15,19 @@ class ArticleController extends Controller
     {
         $articles = Article::all();
 
-        return view('admin.article_list', compact('articles'));
+        return view('admin.layouts.article_list', compact('articles'));
     }
 
 
     public function showArticleCreate()
     {
         $articles = Article::all();
-        
-        return view('admin.article_create',compact('articles'));
+        return view('admin.layouts.article_create', compact('articles'));
     }
 
     public function showArticleEdit(Article $article)
     {
-        return view('admin.article_edit', compact('article'));
+        return view('admin.layouts.article_edit', compact('article'));
     }
   
     
@@ -38,7 +38,7 @@ class ArticleController extends Controller
 
             $article->save();
 
-            return redirect('show.article.list')->with('success', 'お知らせを登録しました。');
+            return redirect()->route('admin.show.article.list')->with('success', 'お知らせを登録しました。');
         }catch(\Exception $e){
           return redirect()->back()->with('error' , 'お知らせ登録中にエラーが発生しました。' . $e->getMessage());
         }
@@ -51,7 +51,7 @@ class ArticleController extends Controller
             $article->fill($request->validated());  
             $article->save();
             
-            return redirect()->route('show.article.list')->with('success', 'お知らせを更新しました。');
+            return redirect()->route('admin.show.article.list')->with('success', 'お知らせを更新しました。');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'お知らせ更新中にエラーが発生しました: ' . $e->getMessage());
         }
@@ -62,7 +62,7 @@ class ArticleController extends Controller
     {
         try {
             $article->delete();
-            return redirect('show.article.list')->with('success', 'お知らせを削除しました。');
+            return redirect()->route('admin.show.article.list')->with('success', 'お知らせを削除しました。');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'お知らせ削除中にエラーが発生しました: ' . $e->getMessage());
         }

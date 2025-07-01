@@ -24,9 +24,9 @@
         </div>
     @endif
     
-    <a href="{{ route('show.article.list') }}">←戻る</a>
+    <a href="{{ route('admin.show.article.list') }}" class="text-decoration-none text-body">←戻る</a>
     <h1 class="mt-3">お知らせ新規登録</h1>
-    <form action="{{ route('article.store') }}" method="POST" class="mt-3">
+    <form action="{{ route('admin.article.store', ['id' => 0]) }}" method="POST" class="mt-3">
         @csrf
         <div class="form-group">
             <label for="posted_date">投稿日時</label>
@@ -37,8 +37,8 @@
             <input type="text" name="title" id="title" class="form-control">
         </div>
         <div class="form-group mt-3">
-            <label for="content">本文</label>
-            <textarea name="content" id="content" class="form-control" rows="5"></textarea>
+            <label for="article_contents">本文</label>
+            <textarea name="article_contents" id="article_contents" class="form-control" rows="5"></textarea>
         </div>
         <div class="text-center">
             <button type="submit" class="btn btn-secondary mt-3">登録</button>

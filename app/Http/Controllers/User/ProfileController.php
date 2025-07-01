@@ -4,7 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use App\Http\Requests\ProfileRequest;
+use App\Http\Requests\UserRequest;
 use App\Http\Requests\PasswordRequest;
 use App\Http\Controllers\Controller;
 
@@ -29,18 +29,18 @@ class ProfileController extends Controller
     }
 
 
-    public function profileUpdate(ProfileRequest $request , User $user)
+    public function profileUpdate(UserRequest $request)
     {
         try {
-            
-            $user = fill($request->validated());
+            $user = auth()->user();
+            $user->fill($request->validated());
 
-            if ($request->hasFile('profile_image')) { 
-            $filename = $request->profile_image->getClientOriginalName();
-            $filePath = $request->profile_image->storeAs('users', $filename, 'public');
-            $product->profile_image = '/storage/' . $filePath;
+            if ($request->hasFile('profile_image')) {
+                $filename = $request->profile_image->getClientOriginalName();
+                $filePath = $request->profile_image->storeAs('users', $filename, 'public');
+                $user->profile_image = '/storage/' . $filePath;
             }
-            
+
             $user->save();
 
             return redirect()->route('user.show.top')->with('success', 'プロフィールを更新しました。');

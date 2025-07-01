@@ -23,8 +23,8 @@ class UserRequest extends FormRequest
     return [
       'name' => 'required|max:255',
       'name_kana' => 'required|regex:/^[ァ-ヶー]+$/u|max:255',
-      'email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
-      'password' => 'required|string|min:8|confirmed',
+      'email' => 'required|email|max:255|unique:users,email,' . ($this->user ? $this->user->id : ($this->id ?? 'null')),
+      'password' => 'nullable|string|min:8|confirmed',
       'profile_image' => 'nullable|image|mimes:,png,jpg|max:2048',
     ];
   }
@@ -40,7 +40,6 @@ class UserRequest extends FormRequest
       'email.email' => '有効なメールアドレスを入力してください。',
       'email.max' => 'メールアドレスは255文字以内でなければなりません。',
       'email.unique' => 'このメールアドレスはすでに使用されています。',
-      'password.required' => 'パスワードを入力してください。',
       'password.min' => 'パスワードは8文字以上でなければなりません。',
       'password.confirmed' => 'パスワードが一致しません。',
       'profile_image.image' => 'プロフィール画像は画像ファイルでなければなりません。',

@@ -10,9 +10,9 @@ class Article extends Model
     use HasFactory;
 
     protected $fillable = [
-        'post_date',
+        'posted_date',
         'title',
-        'article_content',
+        'article_contents',
     ];
 
 }
