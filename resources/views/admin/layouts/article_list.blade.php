@@ -28,14 +28,14 @@
         <tbody>
             @foreach ($articles as $article)
                 <tr>
-                    <td>{{ $article->posted_date }}</td>
                     <td>{{ \Carbon\Carbon::parse($article->posted_date)->format('Y年n月j日') }}</td>
+                    <td>{{ $article->title }}</td>
                     <td>
                         <a href="{{ route('admin.show.article.edit',$article->id)}}" class="btn btn-primary">変更する</a>
                         <form action="{{ route('admin.article.destroy', $article->id) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">削除</button>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？');">削除</button>
                         </form>
                     </td>
                 </tr>

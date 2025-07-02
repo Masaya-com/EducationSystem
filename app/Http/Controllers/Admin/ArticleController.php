@@ -9,8 +9,6 @@ use App\Http\Controllers\Controller;
 
 class ArticleController extends Controller
 {
-
-
     public function showArticleList()
     {
         $articles = Article::all();
@@ -25,8 +23,9 @@ class ArticleController extends Controller
         return view('admin.layouts.article_create', compact('articles'));
     }
 
-    public function showArticleEdit(Article $article)
+    public function showArticleEdit($id)
     {
+        $article = Article::findOrFail($id);
         return view('admin.layouts.article_edit', compact('article'));
     }
   
@@ -45,9 +44,10 @@ class ArticleController extends Controller
     }
 
   
-    public function articleUpdate(ArticleRequest $request, Article $article)
+    public function articleUpdate(ArticleRequest $request, $id)
     {
         try {
+            $article = Article::findOrFail($id);
             $article->fill($request->validated());  
             $article->save();
             
@@ -58,9 +58,10 @@ class ArticleController extends Controller
     }
 
    
-    public function articleDestroy(Article $article)
+    public function articleDestroy($id)
     {
         try {
+            $article = Article::findOrFail($id);
             $article->delete();
             return redirect()->route('admin.show.article.list')->with('success', 'お知らせを削除しました。');
         } catch (\Exception $e) {
