@@ -14,8 +14,25 @@ class ProgressController extends Controller
         $user = auth()->user();
         $grades = Grade::all();
         $curriculums = Curriculum::all();
+        $gradesList = config('grades.grades_list');
 
-        return view('user.layouts.curriculum_progress', compact('user', 'grades', 'curriculums'));
+        $progressCells = [];
+        foreach (config('grades.grades_list') as $i => $gradeName) {
+            $cell = [
+                'grade_name' => $gradeName,
+                'curriculums' => []
+            ];
+            foreach (Curriculum::where('grade_id', $i + 1)->get() as $curriculum) {
+                $cell['curriculums'][] = [
+                    'id' => $curriculum->id,
+                    'title' => $curriculum->title,
+                    'is_completed' => optional($user->curriculumProgress->where('curriculum_id', $curriculum->id)->first())->is_completed,
+                ];
+            }
+            $progressCells[] = $cell;
+        }
+        $progressRows = array_chunk(array_pad($progressCells, 12, null), 3);
+        return view('user.layouts.curriculum_progress', compact('user', 'progressRows'));
     }
 
 }
