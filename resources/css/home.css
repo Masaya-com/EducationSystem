@@ -1,0 +1,136 @@
+/* 全体 */
+.list-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 50px auto;
+}
+
+/* 戻る */
+.list-container a {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+/* タイトル */
+.list-container h2 {
+    margin-bottom: 20px;
+}
+
+/* 新規登録 */
+.create {
+    background-color: #1ABC9C;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 10px;
+    margin-bottom: 10px;
+}
+
+/* 選択学年 */
+#topgrade-name {
+    background-color: #B2EBF2;
+    color: #ffffff;
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 10px;
+    margin-left: 80px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#content-area {
+    display: flex;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+/* 学年一覧 */
+#othergrades-button {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 140px;
+}
+
+/* 学年ボタン */
+.grade-button {
+    background-color: #B2EBF2;
+    color: #ffffff;
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.grade-button:hover {
+    background-color: #80DEEA;
+}
+
+/* 授業一覧 */
+#curriculum-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    flex: 1;
+}
+
+/* 授業ボックス */
+#curriculum-list > div {
+    border: 1px solid #ccc;
+    padding: 12px;
+    width: calc(30% - 20px); 
+    min-width: 220px;
+    max-width: 280px;
+    min-height: 100px;
+    max-height: 400px;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* サムネ */
+#curriculum-list img {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 10px;
+}
+
+/* タイトル */
+#curriculum-list p:first-of-type {
+    font-weight: bold;
+    margin-bottom: 6px;
+}
+
+/* 日時 */
+#curriculum-list p {
+    margin: 4px 0;
+    font-size: 13px;
+    text-align: center;
+}
+
+/* 編集ボタン */
+.curriculumedit,
+.deliveryedit {
+    background-color: #26A69A;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    margin-right: 8px;
+    border-radius: 4px;
+    font-size: 13px;
+}
+.edit-button {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}

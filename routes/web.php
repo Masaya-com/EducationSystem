@@ -50,11 +50,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/register', [AdminRegisterController::class, 'showRegisterForm'])->name('show.register');
     Route::get('/top', [AdminTopController::class, 'showTop'])->name('show.top');
 
-    Route::get('/curriculum_list', [AdminCurriculumController::class, 'showCurriculumList'])->name('show.curriculum.list');
-    Route::get('/curriculum_create', [AdminCurriculumController::class, 'showCurriculumCreate'])->name('show.curriculum.create');
-    Route::get('/curriculum_edit/{id}', [AdminCurriculumController::class, 'showCurriculumEdit'])->name('show.curriculum.edit');
+    Route::get('/curriculum_list', [App\Http\Controllers\CurriculumController::class, 'showCurriculumList'])->name('show.curriculum.list');
 
-    Route::get('/delivery_edit/{id}', [AdminDeliveryController::class, 'showDeliveryEdit'])->name('show.delivery.edit');
+    Route::get('/curriculum_create', [App\Http\Controllers\CurriculumController::class, 'showCurriculumCreate'])->name('show.curriculum.create');
+    Route::post('/curriculum_add',[App\Http\Controllers\CurriculumController::class, 'showCurriculumAdd'])->name('show.curriculum.add');
+
+    Route::get('/curriculum_edit/{id}', [App\Http\Controllers\CurriculumController::class, 'showCurriculumEdit'])->name('show.curriculum.edit');
+    Route::post('/curriculum_update', [App\Http\Controllers\CurriculumController::class, 'showCurriculumUpdate'])->name('show.curriculum.update');
+    
+
+    Route::get('/delivery_edit/{id}', [App\Http\Controllers\DeliveryController::class, 'showDeliveryEdit'])->name('show.delivery.edit');
+    Route::post('/delivery_update', [App\Http\Controllers\DeliveryController::class, 'showDeliveryUpdate'])->name('show.delivery.update');
 
     Route::get('/article_list', [AdminArticleController::class, 'showArticleList'])->name('show.article.list');
     Route::get('/article_create', [AdminArticleController::class, 'showArticleCreate'])->name('show.article.create');

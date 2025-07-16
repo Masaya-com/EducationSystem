@@ -8,8 +8,9 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('delivery_times', function (Blueprint $table) {
             $table->id(); // id INT(10) AUTO_INCREMENT PRIMARY KEY
@@ -24,8 +25,9 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('delivery_times');
     }
