@@ -1,0 +1,59 @@
+
+.list-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 50px auto;
+}
+
+.delivery-form {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+/* 入力欄 */
+.delivery-form input[type="date"],
+.delivery-form input[type="time"] {
+    width: 140px;
+    padding: 6px;
+    font-size: 14px;
+}
+
+/* 追加ボタン */
+.add {
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    font-size: 18px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    display: inline-block;
+    margin: 10px 0;
+}
+
+/* 登録ボタン */
+.add-button {
+    background-color: #555;
+    color: white;
+    padding: 5px 40px;
+    font-size: 16px;
+    border: none;
+    margin-top: 20px;
+    display: block;
+    margin-left: 30%;
+    margin-right: auto;
+}
+
+/* 削除ボタン */
+.delivery-form .remove {
+    background-color: red;
+    color: white;
+    border: none;
+    font-size: 18px;
+    padding: 6px 6px;
+    border-radius: 50%;
+    font-weight: bold;
+    line-height: 1;
+}

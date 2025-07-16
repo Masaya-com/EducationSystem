@@ -13,16 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-        $table->id();
-        $table->string('name', 255);
-        $table->string('name_kana', 255);
-        $table->string('email', 255)->unique();
-        $table->string('password', 255);
-        $table->string('profile_image', 255)->nullable();
-        $table->unsignedBigInteger('grade_id')->nullable();
+        Schema::create('curriculum_progress', function (Blueprint $table) {
+        $table->id(); // id INT AUTO_INCREMENT PRIMARY KEY
+        $table->unsignedBigInteger('curriculums_id');
+        $table->unsignedBigInteger('users_id');
+        $table->tinyInteger('clear_flg')->default(0);
         $table->timestamps();
         });
+
     }
 
     /**
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('curricurum_progress');
     }
 };
