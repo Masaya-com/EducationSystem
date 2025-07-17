@@ -5,7 +5,7 @@
 <div class = "list-container">
 <a href="{{route('admin.show.curriculum.list')}}">←戻る</a>
 <h2>配信日時設定</h2>
-<div>{{$curriculum -> title}}</div>
+<div><h4>{{$curriculum -> title}}</h4></div>
 <form method="POST" action="{{ route('admin.show.delivery.update') }}">
     @csrf
     <input type="hidden" name="curriculums_id" value="{{ $curriculum->id }}">

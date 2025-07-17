@@ -7,6 +7,8 @@ use App\Http\Requests\CurriculumRequest;
 use App\Models\Grade;
 use App\Models\Curriculum;
 use App\Models\DeliveryTime;
+use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
 class CurriculumController extends Controller
@@ -47,21 +49,12 @@ class CurriculumController extends Controller
     public function showCurriculumAdd(CurriculumRequest $request) {
         DB::beginTransaction();
         try {
-            $curriculum = new Curriculum();
-            $curriculum -> grade_id = $request -> grade_id;
-            $curriculum -> title = $request -> title;
-            $curriculum -> video_url = $request -> video_url;
-            $curriculum -> description = $request -> description;
-            $curriculum -> alway_delivery_flg = $request -> boolean('alway_delivery_flg');
             if($request -> hasFile('thumbnail')) {
-                $img = $request -> file('thumbnail');
-                $img_name = $img -> getClientOriginalName();
-                $img->storeAs('public/images', $img_name);
-                $img_path = 'storage/images/' . $img_name;
-                $curriculum -> thumbnail = $img_path;
+                $img_path = $this->img_edit($request);
             }else {
                 $curriculum -> thumbnail = null;
             }
+            $curriculum = Curriculum::addform($request,$img_path);
             $curriculum -> save();
             DB::commit();
             return redirect()->route('admin.show.curriculum.list');
@@ -83,22 +76,15 @@ class CurriculumController extends Controller
     public function showCurriculumUpdate(CurriculumRequest $request) {
         DB::beginTransaction();
         try {
-            $id = $request -> input('id');
-            $curriculum = Curriculum::find($id);
-            $curriculum -> grade_id = $request -> grade_id;
-            $curriculum -> title = $request -> title;
-            $curriculum -> video_url = $request -> video_url;
-            $curriculum -> description = $request -> description;
-            $curriculum -> alway_delivery_flg = $request -> boolean('alway_delivery_flg');
             if($request -> hasFile('thumbnail')) {
-                $img = $request -> file('thumbnail');
-                $img_name = $img -> getClientOriginalName();
-                $img->storeAs('public/images', $img_name);
-                $img_path = 'storage/images/' . $img_name;
-                $curriculum -> thumbnail = $img_path;
+                $img_path = $this->img_edit($request);
             }else {
                 $curriculum -> thumbnail = null;
             }
+            $id = $request -> input('id');
+            $curriculum = Curriculum::find($id);
+            $curriculum = Curriculum::editform($curriculum,$request,$img_path);
+            
             $curriculum -> save();
             DB::commit();
             return redirect()->route('admin.show.curriculum.list');
@@ -107,5 +93,13 @@ class CurriculumController extends Controller
             Log::error($e->getMessage());
             return back();
         }
+    }
+
+    public function img_edit($request) {
+        $img = $request -> file('thumbnail');
+        $img_name = $img -> getClientOriginalName();
+        $img->storeAs('public/images', $img_name);
+        $img_path = 'storage/images/' . $img_name;
+        return $img_path;
     }
 }
