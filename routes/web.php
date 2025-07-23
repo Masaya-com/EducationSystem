@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 // ▼ User Controllers
-use App\Http\Controllers\User\LoginController as UserLoginController;
-use App\Http\Controllers\User\RegisterController as UserRegisterController;
+use App\Http\Controllers\User\Auth\LoginController as UserLoginController;
+use App\Http\Controllers\User\Auth\RegisterController as UserRegisterController;//江草が追加
 use App\Http\Controllers\User\TopController as UserTopController;
 use App\Http\Controllers\User\ArticleController as UserArticleController;
 use App\Http\Controllers\User\CurriculumController as UserCurriculumController;
@@ -28,12 +28,16 @@ use App\Http\Controllers\Admin\BannerController as AdminBannerController;
 */
 Route::prefix('user')->name('user.')->group(function () {
     Route::get('/login', [UserLoginController::class, 'showLoginForm'])->name('show.login');
+    Route::post('/login', [UserLoginController::class, 'login'])->name('login'); //江草が追加
     Route::get('/register', [UserRegisterController::class, 'showRegisterForm'])->name('show.register');
+    Route::post('/register', [UserRegisterController::class, 'register'])->name('register');//江草が追加
     Route::get('/top', [UserTopController::class, 'showTop'])->name('show.top');
+    Route::post('/logout', [UserLoginController::class, 'logout'])->name('logout'); //江草が追加
 
     Route::get('/article/{id}', [UserArticleController::class, 'showArticle'])->name('show.article');
     Route::get('/curriculum_list', [UserCurriculumController::class, 'showCurriculumList'])->name('show.curriculum');
     Route::get('/delivery/{id}', [UserDeliveryController::class, 'showDelivery'])->name('show.delivery');
+    Route::post('/delivery/{id}/clear', [UserDeliveryController::class, 'clear'])->name('delivery.clear');//江草が追加
     Route::get('/progress', [UserProgressController::class, 'showProgress'])->name('show.progress');
 
     Route::get('/profile', [UserProfileController::class, 'showProfileForm'])->name('show.profile');
