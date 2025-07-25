@@ -19,4 +19,14 @@ class DeliveryTime extends Model
     {
         return $this->belongsTo(Curriculum::class);
     }
+
+    public static function canBeWatchedNow($curriculumId)
+    {
+    $now = now();
+
+    return self::where('curriculum_id', $curriculumId)
+        ->where('delivery_from', '<=', $now)
+        ->where('delivery_to', '>=', $now)
+        ->exists();
+    }
 }
