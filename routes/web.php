@@ -47,7 +47,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/top', [AdminTopController::class, 'showTop'])->name('top');
         Route::delete('/banner/{banner}', [AdminBannerController::class, 'destroy'])->name('banner.destroy');
         Route::get('/banner_edit', [AdminBannerController::class, 'showBannerEdit'])->name('show.banner.edit');
-        Route::put('/banner_edit', [AdminBannerController::class, 'update'])->name('banner.update');
+        Route::post('/banner/update', [AdminBannerController::class, 'update'])->name('banner.update');
     });
 });
 Route::prefix('user')->name('user.')->group(function () {

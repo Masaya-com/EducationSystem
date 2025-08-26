@@ -4,46 +4,26 @@
 <div class="container">
     <h1>バナー管理画面</h1>
 
-    {{-- フラッシュメッセージ --}}
-    @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-    @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
-    @endif
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <div>アップロードに失敗しました：</div>
-            <ul class="mb-0">
-                @foreach($errors->all() as $e)
-                    <li>{{ $e }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
     {{-- 画像アップロード（複数可） --}}
-    <form method="POST" action="{{ route('admin.banner.update') }}" enctype="multipart/form-data" class="mb-4">
-        @csrf
-        @method('PUT')
-
-        <div id="banner-list">
-            <div class="banner-item d-flex align-items-center mb-3">
-                <img src="https://via.placeholder.com/100x50"
-                     alt="プレビュー" class="banner-image me-3"
-                     style="width:100px; height:50px; object-fit:cover;">
-                <input type="file" name="banners[]" class="form-control me-3" style="width: 250px;">
-                <button type="button" class="btn btn-danger btn-sm remove-banner rounded-circle"
-                        style="width:30px; height:30px; padding:0;">−</button>
-            </div>
+    <form action="{{ route('admin.banner.update') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div id="banner-list">
+        <div class="banner-item d-flex align-items-center mb-3">
+            <img src="https://via.placeholder.com/100x50"
+                 alt="プレビュー" class="banner-image me-3"
+                 style="width:100px; height:50px; object-fit:cover;">
+            <input type="file" name="banners[]" class="form-control me-3" style="width: 250px;">
+            <button type="button" class="btn btn-danger btn-sm remove-banner rounded-circle"
+                    style="width:30px; height:30px; padding:0;">−</button>
         </div>
-
-        <div class="d-flex gap-2">
-            <button type="button" id="add-banner" class="btn btn-primary rounded-circle"
-                    style="width:30px; height:30px; padding:0;">＋</button>
-            <button type="submit" class="btn btn-success">写真を登録する</button>
-        </div>
-    </form>
+    </div>
+    <div class="d-flex gap-2">
+        <button type="button" id="add-banner" class="btn btn-primary rounded-circle"
+                style="width:30px; height:30px; padding:0;">＋</button>
+    </div>
+    <button type="submit" class="btn btn-success mt-3">写真を登録する</button>
+</form>
 
     {{-- 既存バナー一覧 --}}
     <h2 class="h4">登録済みバナー</h2>
@@ -51,7 +31,7 @@
         @forelse($banners as $banner)
             <div class="col-md-3 mb-3 d-flex flex-column align-items-center">
                 <img src="{{ asset('storage/'.$banner->image) }}"
-                     alt="banner" class="img-thumbnail mb-2" style="width:100%; max-width:260px; height:auto;">
+                     alt="banner" class="img-thumbnail mb-2" style="width:100%;  height:auto;">
                 <form action="{{ route('admin.banner.destroy', $banner->id) }}" method="POST">
                     @csrf
                     @method('DELETE')

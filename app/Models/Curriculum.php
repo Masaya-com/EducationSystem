@@ -13,7 +13,7 @@ class Curriculum extends Model
         'title',
         'description',
         'image_path',
-        'thumbnail',   // ← サムネイルも保存できるように
+        'thumbnail',  
     ];
 
 

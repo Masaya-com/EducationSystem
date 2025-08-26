@@ -57,34 +57,40 @@
 
         <div class="row">
     @forelse ($curriculums as $curriculum)
-        <div class="col-md-4 mb-4">
-            <div class="card">
-                {{-- サムネイル --}}
-                @if($thumbnail)
-                    <img src="{{ asset('storage/' . $thumbnail) }}" 
-                         alt="サムネイル" 
-                         class="card-img-top"
-                         style="width:100%; height:150px; object-fit:cover">
+        <div class="col-md-4 mb-4 d-flex align-items-stretch">
+            <div class="card w-100">
+                @if ($curriculum->thumbnail)
+                    <img src="{{ asset('storage/' . $curriculum->thumbnail) }}"
+                        alt="サムネイル"
+                        class="card-img-top"
+                        style="width:100%; height:150px; object-fit:cover">
                 @else
-                    <p>サムネイル画像がまだ設定されていません</p>
+                    <div class="card-img-top d-flex align-items-center justify-content-center bg-light" style="height:150px;">
+                        <span class="text-muted">サムネイル画像がまだ設定されていません</span>
+                    </div>
                 @endif
 
-                <div class="card-body">
+                <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ $curriculum->title }}</h5>
                     <p>{{ $curriculum->description }}</p>
-
-                    @foreach ($curriculum->deliveryTimes as $time)
-                        <p>
-                            {{ \Carbon\Carbon::parse($time->delivery_from)->format('n月j日 H:i') }}
-                            ~
-                            {{ \Carbon\Carbon::parse($time->delivery_to)->format('H:i') }}
-                        </p>
-                    @endforeach
+                    <div>
+                        @foreach ($curriculum->deliveryTimes as $time)
+                            <p class="mb-0">
+                                {{ \Carbon\Carbon::parse($time->delivery_from)->format('n月j日 H:i') }}
+                                ~
+                                {{ \Carbon\Carbon::parse($time->delivery_to)->format('H:i') }}
+                            </p>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
     @empty
-        <p>この学年のカリキュラムはまだ登録されていません。</p>
+        <div class="col-12">
+            <p>カリキュラムが登録されていません。</p>
+        </div>
     @endforelse
 </div>
-@endsection
+
+                
+        @endsection

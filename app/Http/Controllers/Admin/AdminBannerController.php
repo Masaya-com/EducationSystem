@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Banner;
+use App\Http\Requests\BannerRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
@@ -16,43 +18,37 @@ class AdminBannerController extends Controller
         return view('admin.layouts.banner_edit', compact('banners'));
     }
 
-    public function update(Request $request)
-    {
-        // 複数でも単発でも受けられるようにする
-        $request->validate([
-            'banners'   => 'nullable',
-            'banners.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'image'     => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // 単発対応
-        ]);
+   public function update(BannerRequest $request)
+{
+    $files = $request->file('banners', []); // 配列で取得
 
-        // アップロード配列を組み立て（banners[]優先、なければimage）
-        $files = [];
-        if ($request->hasFile('banners')) {
-            $files = $request->file('banners');
-        } elseif ($request->hasFile('image')) {
-            $files = [$request->file('image')];
-        }
+    if (empty($files)) {
+        return back()->with('error', '画像が選択されていません。');
+    }
 
-        if (empty($files)) {
-            return back()->with('error', 'ファイルが選択されていません。');
-        }
-
+    DB::beginTransaction();
+    try {
         foreach ($files as $file) {
-            // publicディスクに保存 => 戻り値は "banners/xxxx.jpg"
             $path = $file->store('banners', 'public');
 
-            // テーブルのカラム名が image なのでそこに保存
             $banner = new Banner();
-            $banner->image = $path;   // 例: banners/xxxx.jpg
+            $banner->image = $path; // imageカラムに保存
             $banner->save();
         }
 
-        return back()->with('success', 'バナーを登録しました。');
+        DB::commit();
+        return redirect()->route('admin.banner.edit')
+            ->with('success', 'バナーを登録しました！');
+    } catch (\Throwable $e) {
+        DB::rollBack();
+        Log::error('Banner upload failed', ['error' => $e->getMessage()]);
+        return back()->with('error', 'バナー登録に失敗しました。');
     }
+}
+
 
     public function destroy(Banner $banner)
     {
-        // 画像ファイル削除（あってもなくてもOKで続行）
         try {
             if ($banner->image) {
                 Storage::disk('public')->delete($banner->image);
@@ -65,4 +61,5 @@ class AdminBannerController extends Controller
 
         return back()->with('success', 'バナーを削除しました。');
     }
+    
 }

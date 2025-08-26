@@ -10,9 +10,10 @@ class DeliveryTime extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'curriculums_id',
-        'delivery_from',
-        'delivery_to',
-    ];
+   public function scopeForMonth($query, $year, $month)
+    {
+        return $query->whereYear('delivery_from', $year)
+            ->whereMonth('delivery_from', $month)
+            ->orderBy('delivery_from');
+    }
 }
